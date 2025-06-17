@@ -36,9 +36,9 @@ jobs:
     - name: Delete old deployment
       run: |
         export KUBECONFIG=kubeconfig
-        kubectl delete deploy test-app || true
+        kubectl delete deploy nginx-app || true
 
     - name: Deploy to Kubernetes
       run: |
         export KUBECONFIG=kubeconfig
-        kubectl apply -f deployment.yaml && kubectl apply -f service.yaml && kubectl set image deployment/test-app test-app=rbudarin/nginx:${{ github.ref_name }}
+        kubectl apply -f deployment.yaml && kubectl apply -f service.yaml && kubectl set image deployment/nginx-app test-app=rbudarin/nginx:${{ github.ref_name }}
