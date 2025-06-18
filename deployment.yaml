@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: rbudarin/nginx
+        image: rbudarin/nginx:{{ github.ref_name }}
         ports:
         - containerPort: 80
