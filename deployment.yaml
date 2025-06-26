@@ -15,6 +15,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: rbudarin/nginx:{{ github.ref_name }}
+        image: rbudarin/nginx:latest  # Явно указать тег
         ports:
         - containerPort: 80
+        imagePullPolicy: Always  # Добавить политику обновления образов
