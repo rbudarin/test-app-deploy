@@ -28,7 +28,7 @@ jobs:
           rbudarin/nginx:${{ github.ref_name }}
 
   deploy:
-    needs: build-and-push
+    needs: build
     if: startsWith(github.ref, 'refs/tags/')  # Запускаем деплой только для тегов
     runs-on: ubuntu-latest
     steps:
