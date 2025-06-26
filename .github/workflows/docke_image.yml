@@ -26,11 +26,9 @@ jobs:
         tags: |
           rbudarin/nginx:latest
           rbudarin/nginx:${{ github.ref_name }}
-         # Если это тег (v1.0), пушим с версионным тегом, иначе только latest
-          tags: ${{ startsWith(github.ref, 'refs/tags/') && format('rbudarin/nginx:{0}', github.ref_name) || 'rbudarin/nginx:latest' }
 
   deploy:
-    needs: build
+    needs: build-and-push
     if: startsWith(github.ref, 'refs/tags/')  # Запускаем деплой только для тегов
     runs-on: ubuntu-latest
     steps:
@@ -49,9 +47,8 @@ jobs:
       run: |
         export KUBECONFIG=kubeconfig
         # Подставляем тег образа в манифест
-        TAG=${{ github.ref_name }}
-        sed -i "s|rbudarin/nginx:.*|rbudarin/nginx:$TAG|" deployment.yaml
+        sed -i "s|rbudarin/nginx:.*|rbudarin/nginx:${{ github.ref_name }}|" deployment.yaml
           
         # Применяем манифесты
-        kubectl apply -f deployment.yaml && kubectl apply -f service.yaml
+        kubectl apply -f deployment.yaml -f service.yaml
   
